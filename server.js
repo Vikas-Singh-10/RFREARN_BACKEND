@@ -16,10 +16,7 @@ app.use(cors());
 
 
 
-app.get("/",async(_,res)=>{
-    await user();
-    res.send("Hello Welcome to RFREARN")
-})
+app.use("/",user);
 
 // app.listen(PORT, () => console.log(`----SERVER STARTED ON PORT ${PORT}----`));
 
