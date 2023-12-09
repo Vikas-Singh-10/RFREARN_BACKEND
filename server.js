@@ -15,9 +15,10 @@ app.use(bodyParser.urlencoded({limit:"50mb",extended:true,parameterLimit:50000})
 db.connectToDatabase();
 app.use(cors());
 
-app.listen(PORT, () => console.log(`----SERVER STARTED ON PORT ${PORT}----`));
+// app.listen(PORT, () => console.log(`----SERVER STARTED ON PORT ${PORT}----`));
 
 
+module.exports = app;
 
 
 
