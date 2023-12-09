@@ -1,20 +1,43 @@
-import config from "config";
-import mongoose from "mongoose";
-mongoose.Promise = global.Promise;
+import mongoose from 'mongoose';
+import dotenv from "dotenv";
 
-const dbName = config.get('DB_NAME');
-const dbString = config.get('DB_STRING');
+dotenv.config();
 
-const options = {
-    dbName:dbName,
-    serverSelectionTimeoutMS: 30000,
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local'
+  )
 }
 
-export const connectToDatabase = async () => {
-    return mongoose.connect(dbString,options).then(db => {
-        console.log(`------DB CONNECTION CREATED AND CONNECTED TO ${dbName}------`);
-    },
-    err => {
-        console.log(`-----MONGO ERROR ${err}----`);
+let cached = global.mongoose
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null }
+}
+
+export async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      dbName: process.env.DB_NAME
+    }
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose
     })
+  }
+  try {
+    cached.conn = await cached.promise
+  } catch (e) {
+    cached.promise = null
+    throw e
+  }
+
+  return cached.conn
 }
