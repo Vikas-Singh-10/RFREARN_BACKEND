@@ -1,5 +1,5 @@
-const config = require("config");
-const mongoose = require("mongoose");
+import config from "config";
+import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 
 const dbName = config.get('DB_NAME');
@@ -10,7 +10,7 @@ const options = {
     serverSelectionTimeoutMS: 30000,
 }
 
-module.exports.connectToDatabase = async () => {
+export const connectToDatabase = async () => {
     return mongoose.connect(dbString,options).then(db => {
         console.log(`------DB CONNECTION CREATED AND CONNECTED TO ${dbName}------`);
     },

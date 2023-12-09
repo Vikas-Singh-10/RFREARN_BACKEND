@@ -1,30 +1,18 @@
-const express = require("express");
-const db = require("./middlewares/db");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import express from "express";
+import { connectToDatabase } from "./middlewares/db.js";
+import cors from "cors";
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = 3000;
 
-
-db.connectToDatabase();
+connectToDatabase();
 
 app.use(express.json());
-app.use(bodyParser.json({limit:"50mb",strict:false}));
-app.use(bodyParser.urlencoded({limit:"50mb",extended:true,parameterLimit:50000}));
-db.connectToDatabase();
+app.use(bodyParser.json({ limit: "50mb", strict: false }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use(cors());
 
 // app.listen(PORT, () => console.log(`----SERVER STARTED ON PORT ${PORT}----`));
 
-
-module.exports = app;
-
-
-
-
-
-
-
-
-
+export default app;
