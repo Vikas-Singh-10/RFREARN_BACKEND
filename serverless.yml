@@ -1,3 +1,5 @@
+org: vikas01
+app: rfrearn-backend
 service: rfrearn-backend
 frameworkVersion: "3"
 
@@ -6,14 +8,19 @@ provider:
   runtime: nodejs18.x
   region: ap-south-1
 
-
 functions:
-    server:
-      handler: index.run
-      events:
-        - httpApi:
-            path: /
-            method: get
+  server:
+    handler: index.run
+    events:
+      - httpApi:
+          path: /
+          method: get
+      - httpApi:
+          path: /
+          method: post
+      - httpApi:
+          path: /
+          method: put
 
 plugins:
-  - serverless-offline      
+  - serverless-offline
