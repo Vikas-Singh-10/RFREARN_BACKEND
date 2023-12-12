@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -12,32 +11,23 @@ if (!MONGODB_URI) {
   )
 }
 
-let cached = global.mongoose
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
+const options = {
+  bufferCommands: false,
+  dbName: process.env.DB_NAME
 }
 
-export async function dbConnect() {
-  if (cached.conn) {
-    return cached.conn
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-      dbName: process.env.DB_NAME
+export const dbConnect = async(_,res,next) => {
+  if(mongoose.connection.readyState === 1){
+    console.log("-----ALREADY---CONNECTED-----");
+    next();
+  }else{
+    try{
+      await mongoose.connect(MONGODB_URI,options);
+      console.log(`---DB---CONNECTED---TO---${process.env.DB_NAME}`);
+      next();
+    }catch(err){
+      console.log(`---ERROR---${err}`);
+      return res.send({status_code:409,success:false,message:'Failure'});
     }
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose
-    })
   }
-  try {
-    cached.conn = await cached.promise
-  } catch (e) {
-    cached.promise = null
-    throw e
-  }
-
-  return cached.conn
-}
+}  

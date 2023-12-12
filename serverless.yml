@@ -1,0 +1,19 @@
+service: rfrearn-backend
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+
+functions:
+    server:
+      handler: index.run
+      events:
+        - httpApi:
+            path: /
+            method: get
+
+plugins:
+  - serverless-offline      
