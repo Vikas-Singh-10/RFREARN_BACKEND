@@ -12,15 +12,7 @@ functions:
   server:
     handler: index.run
     events:
-      - httpApi:
-          path: /
-          method: get
-      - httpApi:
-          path: /
-          method: post
-      - httpApi:
-          path: /
-          method: put
+      - httpApi: '*'
 
 plugins:
   - serverless-offline
