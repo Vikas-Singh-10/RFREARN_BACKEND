@@ -1,14 +1,37 @@
-import {insertUser} from "../services/userService.js"
+import userService from "../services/userService.js"
+import functions from "../helpers/functions.js";
+import jwt from 'jsonwebtoken';
 
-export const user = async(_,res) =>{
+
+export const googleSignUp = async(req,res) =>{
     try{
-        const data = {
-            name:"RFREARN",
-            sampleData:true,
-            seeYouSoon:true
+        const inputData = req.user;
+        const userDetails = await userService.findUser({ google_client_id : inputData.id});
+        let tokenSession;
+        if(userDetails == undefined){
+            let {referral_code, referral_identifier} = await functions.generateReferralCode(inputData.name.givenName);
+            let userData = {
+                first_name : inputData.name.givenName,
+                last_name : inputData.name.familyName,
+                display_name : inputData.displayName,
+                email_id : inputData.emails[0].value,
+                google_client_id : inputData.id,
+                profile_picture : inputData.photos[0].value,
+                referral_code : referral_code,
+                referral_identifier : referral_identifier
+            }
+            let createUser = await userService.createUser(userData);
+            //to be continued
         }
-        return res.status(200).json({data:data});
+        return res.status(200).json({});
     }catch(err){
         return res.status(500).json({error:err});
     }
 }
+
+
+const userController = {
+    googleSignUp
+}
+
+export default userController;
