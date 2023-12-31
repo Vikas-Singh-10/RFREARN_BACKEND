@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-const timestamps = require('mongoose-timestamp');
-const uniqueValidator = require('mongoose-unique-validator');
+import timestamps from 'mongoose-timestamp';
+import uniqueValidator from 'mongoose-unique-validator';
 
 /**
  * @typedef {object} UserSchema
@@ -22,7 +22,7 @@ const UserSchema = mongoose.Schema({
     email_id: { type: String, default: "", trim: true },
     google_client_id: { type: String, default: "", trim: true, unique: true},
     profile_picture: { type: String, default: "", trim: true },
-    referral_code: { type: String, default: "" },
+    referral_code: { type: String, default: "", unique: true },
     referral_identifier : { type: Number, default: 0},
     referred_code: { type: String, default: "" },
     active: { type: Boolean, default: true },
