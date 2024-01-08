@@ -1,5 +1,5 @@
 import userService from "../services/userService.js"
-import functions from "../helpers/functions.js";
+import functions from "../functions/helpers.js";
 import jwt from 'jsonwebtoken';
 
 

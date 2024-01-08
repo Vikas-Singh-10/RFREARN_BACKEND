@@ -27,7 +27,7 @@ export const dbConnect = async(_,res,next) => {
       next();
     }catch(err){
       console.log(`---ERROR---${err}`);
-      return res.send({status_code:409,success:false,message:'Failure'});
+      return res.send({status_code:409,success:false,message:'-----DB-CONNECTION-FAILED----'});
     }
   }
 }  

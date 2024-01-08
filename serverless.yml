@@ -11,7 +11,7 @@ provider:
 functions:
   server:
     handler: index.run
-    timout: 30
+    timeout: 30
     events:
       - httpApi: '*'
 

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import timestamps from 'mongoose-timestamp';
-import uniqueValidator from 'mongoose-unique-validator';
 
 /**
  * @typedef {object} UserSchema
@@ -33,7 +32,6 @@ const UserSchema = mongoose.Schema({
 
 
 UserSchema.plugin(timestamps);
-UserSchema.plugin(uniqueValidator);
 
 UserSchema.index({
     display_name: 1,
